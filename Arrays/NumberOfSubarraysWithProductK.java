@@ -1,5 +1,8 @@
-/*package whatever //do not write package name here */
-
+/*
+* Count the number of sub-arrays with product equals to k.
+* Example(1): [1,2,1,2] and k=2
+* Output: 6
+*/
 import java.io.*;
 import java.util.*;
 class NumberOfSubarraysWithProductK {
