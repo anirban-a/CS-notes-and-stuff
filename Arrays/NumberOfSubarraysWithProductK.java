@@ -27,17 +27,28 @@ class NumberOfSubarraysWithProductK {
         }
         return count;
     }
+    public static int countOnes(int[]ar){
+        int i=0,j=0,count=0,len=0;
+        while(j<ar.length){
+            if(ar[j]==1)len=1;
+            while(j<ar.length-1&&ar[j+1]==1){
+                len++;
+                j++;
+            }
+            count+=len*(len+1)/2;
+            len=0;
+            j++;
+        }
+        return count;
+    }
 	public static void main (String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String[]in=br.readLine().split(" ");
         int[]ar=new int[in.length];
         for(int i=0;i<in.length;i++)ar[i]=Integer.parseInt(in[i]);
         int k=Integer.parseInt(br.readLine());
-        if(k==1){
-            int count=0;
-            for(int i=0;i<ar.length;i++)count+=ar[i]==1?1:0;
-            System.out.println(count);
-        }
+        if(k==1)
+            System.out.println(countOnes(ar));
         else System.out.println(count(ar,k));
 	}
 }
