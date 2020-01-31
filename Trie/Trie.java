@@ -1,3 +1,8 @@
+/**
+*
+* This implementation assumes the words stored are going to be made of only lower case alphabets [a-z].
+**/
+
 class Trie{
     private class TrieNode{
         char val;
