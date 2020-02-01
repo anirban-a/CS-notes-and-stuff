@@ -4,7 +4,7 @@
 **/
 
 class Trie{
-    private class TrieNode{
+    class TrieNode{
         char val;
         TrieNode[]child;
         boolean isWord;
@@ -49,5 +49,10 @@ class Trie{
             currentNode=currentNode.child[idx];
         }
         return currentNode.isWord;
+    }
+
+    public TrieNode getNode(char chr){
+        // return the child node for the given character or null if it doesn't exist
+        return this.root.child[chr-'a'];
     }
 }
