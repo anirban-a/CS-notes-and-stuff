@@ -1,57 +1,51 @@
-import java.io.*;
-
+import java.util.*;
 class FindKthSmallestElement{
+    void swap(int[]ar,int x,int y){
+        int temp=ar[x];
+        ar[x]=ar[y];
+        ar[y]=temp;
+    }
 
-	static void quickSort(int[] ar, int left, int right){
-		if(left<right){
-			int pivotIdx = partition(ar,left,right);
-			quickSort(ar,left,pivotIdx-1);
-			quickSort(ar,pivotIdx+1,right);
-		}
-	}
+    int find(int[]ar, int l, int r, int k){
+        if(l==r)
+            return ar[l];
+        int idx=paritition(ar,l,r);
+        if(k==idx+1)
+            return ar[idx];
+        if(k<idx+1)
+            return find(ar,l,idx-1,k);
+        return find(ar,idx+1,r,k);
+    }
 
-	static int findKSmallest(int[]ar, int left, int right, int k){
-		if(0<=k && k<=right-left){
-			int pivotIdx = partition(ar,left, right);
-			if(left+k==pivotIdx)
-				return ar[pivotIdx];
-			if(left+k<pivotIdx)
-				return findKSmallest(ar,left, pivotIdx-1, k);
-			return findKSmallest(ar,pivotIdx+1,right,left+k-pivotIdx-1);
-		}
-		else return -1;
-	}
+    int paritition(int[] ar,int l, int r){
+        Random rand=new Random();
+        // choose a random element to place it in it's correct position.
+        int randIdx=l+rand.nextInt(r-l+1);
+        swap(ar,randIdx,r);
+        int key=ar[r];
+        int i=l,j=r-1;
+        while(i<j){
+            if(ar[i]<=key)i++;
+            if(ar[j]>key)j--;
+            if(i<j && ar[i]>key && ar[j]<=key)
+                swap(ar,i,j);
+        }
+        if(ar[i]<=key){
+            swap(ar,i+1,r);
+            return i+1;
+        }
+        swap(ar,i,r);
+        return i;
+    }
+    public int findKthLargest(int[] nums, int k) {
+        int n=nums.length;
+        // kth largest = (n-k+1)th smallest
+        k=n-k+1;
+        return find(nums,0,n-1,k);
+    }
 
-	static int partition(int[]ar, int left, int right){
-		int i=left,j=right-1;
-		while(i<=j){
-			if(ar[i]<ar[right])i++;
-			if(ar[j]>=ar[right])j--;
+    public int findKthSmallest(int[] nums, int k) {
+    	return find(nums,0,nums.length-1,k);
+    }
 
-			if(i<j && ar[i]>ar[right]&&ar[j]<ar[right]){
-				int temp = ar[i];
-				ar[i]=ar[j];
-				ar[j]=temp;
-			}
-		}
-		int temp = ar[i];
-		ar[i]=ar[right];
-		ar[right] = temp;
-		return i;
-	}
-
-	public static void main(String[] args) throws IOException{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-		String[]in = br.readLine().split(" ");
-		int[]ar = new int[in.length];
-		for(int i=0;i<in.length;i++)ar[i]=Integer.parseInt(in[i]);
-
-		int k=Integer.parseInt(br.readLine());
-		// quickSort(ar,0,ar.length-1);
-		// for(int i=0;i<ar.length;i++){
-		// 	System.out.print(ar[i]+" ");
-		// }	
-		System.out.println(findKSmallest(ar,0,ar.length-1,k-1));
-	}
 }
